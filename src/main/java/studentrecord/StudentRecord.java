@@ -1,4 +1,4 @@
-package assignment1.part2;
+package studentrecord;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,11 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.util.Optional;
 
-public class studentRecord extends Application {
-    /* Main Methods */
-    public static void main(String[] args) {
-        launch(args);
-    }
+public class StudentRecord extends Application {
 
     @Override
     public void start(Stage stage) {
@@ -22,7 +18,7 @@ public class studentRecord extends Application {
         mainTabPane.setTabMinWidth(40);
 
         // Creating Tabs
-        tabCreator myTabs = new tabCreator();
+        TabCreator myTabs = new TabCreator();
 
         // Adding tabs to pane
         mainTabPane.getTabs().add(myTabs.getStudentTab());

@@ -1,4 +1,4 @@
-package assignment1.part2;
+package studentrecord;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -16,19 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class tabCreator {
+public class TabCreator {
     // Fields
     private final Tab studentTab;
     private final Tab moduleTab;
     private final Tab reviewTab;
 
     // Global Variables
-    private static final String FILE_PATH = "src/main/resources";
-    private static final List<student> studentArray = new ArrayList<>();
+    private static final String FILE_PATH = "../resources";
+    private static final List<Student> studentArray = new ArrayList<>();
     private static String idSelected;
-    private static student currStudent;
+    private static Student currStudent;
 
-    public tabCreator(){
+    public TabCreator(){
         studentTab = createStudentTab();
         moduleTab = createModuleTab();
         reviewTab = createReviewTab();
@@ -62,7 +62,7 @@ public class tabCreator {
         TextField studentDOBInput = new TextField();
 
         // TextFields Handler
-        studentIdInput.setOnAction(actionEvent -> studentIdInput.setText(studentIdInput.getText()));
+        studentIdInput.setOnAction(_ -> studentIdInput.setText(studentIdInput.getText()));
         studentNameInput.setOnAction(actionEvent -> studentNameInput.setText(studentNameInput.getText()));
         studentDOBInput.setOnAction(actionEvent -> studentDOBInput.setText(studentDOBInput.getText()));
 
@@ -88,7 +88,7 @@ public class tabCreator {
             // if ID text field is not empty and not in list add student to array
             if (!studentIdInput.getText().equals("") && !studentNameInput.getText().equals("") && !studentDOBInput.getText().equals("")) {
                 if (isStudentNotInList(studentIdInput.getText())) {
-                    student newStudent = new student(studentIdInput.getText(), studentNameInput.getText(), studentDOBInput.getText());
+                    Student newStudent = new Student(studentIdInput.getText(), studentNameInput.getText(), studentDOBInput.getText());
                     studentArray.add(newStudent);
                 }
 
@@ -106,7 +106,7 @@ public class tabCreator {
             String toRemove = studentIdInput.getText();
             if (!toRemove.equals("")) {
                 for (int i = 0; i < studentArray.size(); i++) {
-                    student currStudent = studentArray.get(i);
+                    Student currStudent = studentArray.get(i);
                     if (toRemove.equals(currStudent.getID()))
                         studentArray.remove(currStudent);
                 }
@@ -398,7 +398,7 @@ public class tabCreator {
 
     // Check if given ID is not in list
     private static boolean isStudentNotInList(String idToCheck){
-        for (student currStudent : studentArray) {
+        for (Student currStudent : studentArray) {
             if (idToCheck.equals(currStudent.getID())) {
                 return false;
             }
@@ -409,26 +409,26 @@ public class tabCreator {
     private static ComboBox<String> createStudentDropList(){
         ComboBox<String> studentDropList = new ComboBox<>();
         studentDropList.setPromptText("Students");
-        for (assignment1.part2.student student : studentArray) {
+        for (Student student : studentArray) {
             studentDropList.getItems().add(student.getID());
         }
         return studentDropList;
     }
     // Re-write variables to combobox
     private static void refreshComboBox(ComboBox<String> toRefresh){
-        for (assignment1.part2.student student : studentArray) {
+        for (Student student : studentArray) {
             toRefresh.getItems().add(student.getID());
         }
     }
 
     // Check if given module from student is not in list
-    private static boolean isModuleNotInList(student studentToCheck, String moduleToCheck){
+    private static boolean isModuleNotInList(Student studentToCheck, String moduleToCheck){
         if (studentToCheck.getModuleArray() == null)
             return true;
         if (studentToCheck.getModuleArray().isEmpty())
             return true;
-        for (module currModule : studentToCheck.getModuleArray()){
-            if (moduleToCheck.equals(currModule.getModuleName())){
+        for (ClassModule currClassModule : studentToCheck.getModuleArray()){
+            if (moduleToCheck.equals(currClassModule.moduleName())){
                 return false;
             }
         }
@@ -436,9 +436,9 @@ public class tabCreator {
     }
 
     // Find Student by ID
-    private static student findStudent(String studentID){
-        student studentToAdd = null;
-        for (student currStudent : studentArray){
+    private static Student findStudent(String studentID){
+        Student studentToAdd = null;
+        for (Student currStudent : studentArray){
             if (studentID.equals(currStudent.getID()))
                 studentToAdd=currStudent;
         }
@@ -459,7 +459,7 @@ public class tabCreator {
                 String studentName = studentFile.nextLine();
                 String studentDOB = studentFile.nextLine();
                 // Create student using information from file
-                student currStudent = new student(studentID, studentName, studentDOB);
+                Student currStudent = new Student(studentID, studentName, studentDOB);
                 // Add students to list
                 if (isStudentNotInList(studentID))
                     studentArray.add(currStudent);
@@ -480,7 +480,7 @@ public class tabCreator {
     }
 
     // Read module file
-    private static void readModuleFile(student toRead){
+    private static void readModuleFile(Student toRead){
         // Clear module array
         toRead.getModuleArray().clear();
         try {
@@ -492,9 +492,9 @@ public class tabCreator {
                 String moduleName = moduleFile.nextLine();
                 double moduleGrade = Double.parseDouble(moduleFile.nextLine());
                 // Create module using information from file
-                module currModule = new module(moduleName, moduleGrade);
+                ClassModule currClassModule = new ClassModule(moduleName, moduleGrade);
                 if (isModuleNotInList(toRead, moduleName))
-                    toRead.addModule(currModule);
+                    toRead.addModule(currClassModule);
             }
 
         }
@@ -516,7 +516,7 @@ public class tabCreator {
             // Open file
             FileWriter studentFile = new FileWriter(FILE_PATH + "/studentRecord.txt");
             // Write student objects to file
-            for (assignment1.part2.student student : studentArray) {
+            for (Student student : studentArray) {
                 studentFile.write(student.getID() + "\n");
                 studentFile.write(student.getName() + "\n");
                 studentFile.write(student.getDOB() + "\n");
@@ -529,14 +529,14 @@ public class tabCreator {
     }
 
     // Write module file
-    private static void writeModuleFile(student toWrite) {
+    private static void writeModuleFile(Student toWrite) {
         try {
             // Open file
             FileWriter moduleFile = new FileWriter(FILE_PATH + "/modules" + toWrite.getID() + ".txt");
             // Write module objects to file
-            for (assignment1.part2.module module : toWrite.getModuleArray()) {
-                moduleFile.write(module.getModuleName() + "\n");
-                moduleFile.write(module.getStudentGrade() + "\n");
+            for (ClassModule classModule : toWrite.getModuleArray()) {
+                moduleFile.write(classModule.moduleName() + "\n");
+                moduleFile.write(classModule.studentGrade() + "\n");
             }
             // Close file
             moduleFile.close();
