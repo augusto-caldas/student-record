@@ -62,9 +62,9 @@ public class TabCreator {
         TextField studentDOBInput = new TextField();
 
         // TextFields Handler
-        studentIdInput.setOnAction(_ -> studentIdInput.setText(studentIdInput.getText()));
-        studentNameInput.setOnAction(_ -> studentNameInput.setText(studentNameInput.getText()));
-        studentDOBInput.setOnAction(_ -> studentDOBInput.setText(studentDOBInput.getText()));
+        studentIdInput.setOnAction(actionEvent -> studentIdInput.setText(studentIdInput.getText()));
+        studentNameInput.setOnAction(actionEvent -> studentNameInput.setText(studentNameInput.getText()));
+        studentDOBInput.setOnAction(actionEvent -> studentDOBInput.setText(studentDOBInput.getText()));
 
         // Create TextAreas
         TextArea studentPrintArray = new TextArea("Students in the application");
@@ -84,7 +84,7 @@ public class TabCreator {
                 saveStudentAndExit);
 
         // Buttons handlers
-        addStudent.setOnAction(_ -> {
+        addStudent.setOnAction(actionEvent -> {
             // if ID text field is not empty and not in list add student to array
             if (!studentIdInput.getText().isEmpty() && !studentNameInput.getText().isEmpty() && !studentDOBInput.getText().isEmpty()) {
                 if (isStudentNotInList(studentIdInput.getText())) {
@@ -101,7 +101,7 @@ public class TabCreator {
             }
         });
 
-        removeStudent.setOnAction(_ -> {
+        removeStudent.setOnAction(actionEvent -> {
             // if ID text field is not empty and ID in array remove student from array
             String toRemove = studentIdInput.getText();
             if (!toRemove.isEmpty()) {
@@ -118,16 +118,16 @@ public class TabCreator {
             studentPrintArray.setText(studentArray.toString());
         });
 
-        listStudent.setOnAction(_ -> studentPrintArray.setText(studentArray.toString()));
+        listStudent.setOnAction(actionEvent -> studentPrintArray.setText(studentArray.toString()));
 
-        saveStudentToFile.setOnAction(_ -> writeStudentFile());
+        saveStudentToFile.setOnAction(actionEvent -> writeStudentFile());
 
-        loadStudentFromFile.setOnAction(_ -> {
+        loadStudentFromFile.setOnAction(actionEvent -> {
             readStudentFile();
             studentPrintArray.setText(studentArray.toString());
         });
 
-        saveStudentAndExit.setOnAction(_ -> {
+        saveStudentAndExit.setOnAction(actionEvent -> {
             writeStudentFile();
             if (currStudent != null)
                 writeModuleFile(currStudent);
@@ -206,7 +206,7 @@ public class TabCreator {
                 removeModule, listModule, saveModule, loadModule, saveAndExit);
 
         // ComboBox handler
-        studentDropList.setOnAction(_ -> {
+        studentDropList.setOnAction(actionEvent -> {
             idSelected = studentDropList.getSelectionModel().getSelectedItem();
             if (idSelected != null) {
                 currStudent = findStudent(idSelected);
@@ -230,11 +230,11 @@ public class TabCreator {
         });
 
         // TextField Handlers
-        moduleNameInput.setOnAction(_ -> moduleNameInput.setText(moduleNameInput.getText()));
-        moduleGradeInput.setOnAction(_ -> moduleGradeInput.setText(moduleGradeInput.getText()));
+        moduleNameInput.setOnAction(actionEvent -> moduleNameInput.setText(moduleNameInput.getText()));
+        moduleGradeInput.setOnAction(actionEvent -> moduleGradeInput.setText(moduleGradeInput.getText()));
 
         // Buttons handlers
-        refreshDropList.setOnAction(_ -> {
+        refreshDropList.setOnAction(actionEvent -> {
             hideModuleControls(moduleNameLabel, moduleGradeLabel, moduleNameInput, moduleGradeInput, addModule,
                     removeModule, listModule, saveModule, loadModule, saveAndExit);
             modulePrintList.setText("Select a student");
@@ -242,7 +242,7 @@ public class TabCreator {
             refreshComboBox(studentDropList);
         });
 
-        addModule.setOnAction(_ -> {
+        addModule.setOnAction(actionEvent -> {
             // If input fields not empty
             String moduleToAdd = moduleNameInput.getText();
             String gradeToAdd = moduleGradeInput.getText();
@@ -266,7 +266,7 @@ public class TabCreator {
             }
         });
 
-        removeModule.setOnAction(_ -> {
+        removeModule.setOnAction(actionEvent -> {
             // If input fields not empty
             String moduleToRemove = moduleNameInput.getText();
             if (!moduleToRemove.isEmpty()) {
@@ -284,16 +284,16 @@ public class TabCreator {
             }
         });
 
-        listModule.setOnAction(_ -> modulePrintList.setText(currStudent.getModuleArray().toString()));
+        listModule.setOnAction(actionEvent -> modulePrintList.setText(currStudent.getModuleArray().toString()));
 
-        saveModule.setOnAction(_ -> writeModuleFile(currStudent));
+        saveModule.setOnAction(actionEvent -> writeModuleFile(currStudent));
 
-        loadModule.setOnAction(_ -> {
+        loadModule.setOnAction(actionEvent -> {
             readModuleFile(currStudent);
             modulePrintList.setText(currStudent.getModuleArray().toString());
         });
 
-        saveAndExit.setOnAction(_ -> {
+        saveAndExit.setOnAction(actionEvent -> {
             writeModuleFile(currStudent);
             Platform.exit();
         });
@@ -351,7 +351,7 @@ public class TabCreator {
         studentInfoToPrint.setPrefSize(250, 300);
 
         // Handlers
-        studentDropList.setOnAction(_ -> {
+        studentDropList.setOnAction(actionEvent -> {
             idSelected = studentDropList.getSelectionModel().getSelectedItem();
             if (idSelected != null) {
                 currStudent = findStudent(idSelected);
@@ -364,7 +364,7 @@ public class TabCreator {
             }
         });
 
-        refreshList.setOnAction(_ -> {
+        refreshList.setOnAction(actionEvent -> {
             studentDropList.getItems().clear();
             refreshComboBox(studentDropList);
             studentInfoToPrint.setText("Select a student");
