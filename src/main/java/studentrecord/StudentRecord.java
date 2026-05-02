@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.io.InputStream;
 import java.util.Optional;
 
 public class StudentRecord extends Application {
@@ -26,8 +28,11 @@ public class StudentRecord extends Application {
         mainTabPane.getTabs().add(myTabs.getReviewTab());
 
         // Setting stage scene
-        stage.setTitle("MTU Student Record System");
-        stage.getIcons().add(new Image("/icon.png"));
+        stage.setTitle("Student Record System");
+        InputStream iconStream = getClass().getResourceAsStream("/icon.png");
+        if (iconStream != null) {
+            stage.getIcons().add(new Image(iconStream));
+        }
         StackPane layout = new StackPane();
         layout.getChildren().add(mainTabPane);
         stage.setScene(new Scene(layout, 360, 500));

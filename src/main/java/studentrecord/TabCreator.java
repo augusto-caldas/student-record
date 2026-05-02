@@ -63,8 +63,8 @@ public class TabCreator {
 
         // TextFields Handler
         studentIdInput.setOnAction(_ -> studentIdInput.setText(studentIdInput.getText()));
-        studentNameInput.setOnAction(actionEvent -> studentNameInput.setText(studentNameInput.getText()));
-        studentDOBInput.setOnAction(actionEvent -> studentDOBInput.setText(studentDOBInput.getText()));
+        studentNameInput.setOnAction(_ -> studentNameInput.setText(studentNameInput.getText()));
+        studentDOBInput.setOnAction(_ -> studentDOBInput.setText(studentDOBInput.getText()));
 
         // Create TextAreas
         TextArea studentPrintArray = new TextArea("Students in the application");
@@ -84,9 +84,9 @@ public class TabCreator {
                 saveStudentAndExit);
 
         // Buttons handlers
-        addStudent.setOnAction(actionEvent -> {
+        addStudent.setOnAction(_ -> {
             // if ID text field is not empty and not in list add student to array
-            if (!studentIdInput.getText().equals("") && !studentNameInput.getText().equals("") && !studentDOBInput.getText().equals("")) {
+            if (!studentIdInput.getText().isEmpty() && !studentNameInput.getText().isEmpty() && !studentDOBInput.getText().isEmpty()) {
                 if (isStudentNotInList(studentIdInput.getText())) {
                     Student newStudent = new Student(studentIdInput.getText(), studentNameInput.getText(), studentDOBInput.getText());
                     studentArray.add(newStudent);
@@ -101,10 +101,10 @@ public class TabCreator {
             }
         });
 
-        removeStudent.setOnAction(actionEvent -> {
+        removeStudent.setOnAction(_ -> {
             // if ID text field is not empty and ID in array remove student from array
             String toRemove = studentIdInput.getText();
-            if (!toRemove.equals("")) {
+            if (!toRemove.isEmpty()) {
                 for (int i = 0; i < studentArray.size(); i++) {
                     Student currStudent = studentArray.get(i);
                     if (toRemove.equals(currStudent.getID()))
@@ -118,16 +118,16 @@ public class TabCreator {
             studentPrintArray.setText(studentArray.toString());
         });
 
-        listStudent.setOnAction(actionEvent -> studentPrintArray.setText(studentArray.toString()));
+        listStudent.setOnAction(_ -> studentPrintArray.setText(studentArray.toString()));
 
-        saveStudentToFile.setOnAction(actionEvent -> writeStudentFile());
+        saveStudentToFile.setOnAction(_ -> writeStudentFile());
 
-        loadStudentFromFile.setOnAction(actionEvent -> {
+        loadStudentFromFile.setOnAction(_ -> {
             readStudentFile();
             studentPrintArray.setText(studentArray.toString());
         });
 
-        saveStudentAndExit.setOnAction(actionEvent -> {
+        saveStudentAndExit.setOnAction(_ -> {
             writeStudentFile();
             if (currStudent != null)
                 writeModuleFile(currStudent);
@@ -206,7 +206,7 @@ public class TabCreator {
                 removeModule, listModule, saveModule, loadModule, saveAndExit);
 
         // ComboBox handler
-        studentDropList.setOnAction(actionEvent -> {
+        studentDropList.setOnAction(_ -> {
             idSelected = studentDropList.getSelectionModel().getSelectedItem();
             if (idSelected != null) {
                 currStudent = findStudent(idSelected);
@@ -230,11 +230,11 @@ public class TabCreator {
         });
 
         // TextField Handlers
-        moduleNameInput.setOnAction(actionEvent -> moduleNameInput.setText(moduleNameInput.getText()));
-        moduleGradeInput.setOnAction(actionEvent -> moduleGradeInput.setText(moduleGradeInput.getText()));
+        moduleNameInput.setOnAction(_ -> moduleNameInput.setText(moduleNameInput.getText()));
+        moduleGradeInput.setOnAction(_ -> moduleGradeInput.setText(moduleGradeInput.getText()));
 
         // Buttons handlers
-        refreshDropList.setOnAction(actionEvent -> {
+        refreshDropList.setOnAction(_ -> {
             hideModuleControls(moduleNameLabel, moduleGradeLabel, moduleNameInput, moduleGradeInput, addModule,
                     removeModule, listModule, saveModule, loadModule, saveAndExit);
             modulePrintList.setText("Select a student");
@@ -242,11 +242,11 @@ public class TabCreator {
             refreshComboBox(studentDropList);
         });
 
-        addModule.setOnAction(actionEvent -> {
+        addModule.setOnAction(_ -> {
             // If input fields not empty
             String moduleToAdd = moduleNameInput.getText();
             String gradeToAdd = moduleGradeInput.getText();
-            if (!moduleToAdd.equals("") && !gradeToAdd.equals("")){
+            if (!moduleToAdd.isEmpty() && !gradeToAdd.isEmpty()){
 
                 // Check if module is already signed to student
                 if (isModuleNotInList(currStudent, moduleToAdd)){
@@ -266,10 +266,10 @@ public class TabCreator {
             }
         });
 
-        removeModule.setOnAction(actionEvent -> {
+        removeModule.setOnAction(_ -> {
             // If input fields not empty
             String moduleToRemove = moduleNameInput.getText();
-            if (!moduleToRemove.equals("")) {
+            if (!moduleToRemove.isEmpty()) {
                 // If module is in array
                 if (!isModuleNotInList(currStudent, moduleToRemove)) {
                     // Remove module from array
@@ -284,16 +284,16 @@ public class TabCreator {
             }
         });
 
-        listModule.setOnAction(actionEvent -> modulePrintList.setText(currStudent.getModuleArray().toString()));
+        listModule.setOnAction(_ -> modulePrintList.setText(currStudent.getModuleArray().toString()));
 
-        saveModule.setOnAction(actionEvent -> writeModuleFile(currStudent));
+        saveModule.setOnAction(_ -> writeModuleFile(currStudent));
 
-        loadModule.setOnAction(actionEvent -> {
+        loadModule.setOnAction(_ -> {
             readModuleFile(currStudent);
             modulePrintList.setText(currStudent.getModuleArray().toString());
         });
 
-        saveAndExit.setOnAction(actionEvent -> {
+        saveAndExit.setOnAction(_ -> {
             writeModuleFile(currStudent);
             Platform.exit();
         });
@@ -351,7 +351,7 @@ public class TabCreator {
         studentInfoToPrint.setPrefSize(250, 300);
 
         // Handlers
-        studentDropList.setOnAction(actionEvent -> {
+        studentDropList.setOnAction(_ -> {
             idSelected = studentDropList.getSelectionModel().getSelectedItem();
             if (idSelected != null) {
                 currStudent = findStudent(idSelected);
@@ -364,7 +364,7 @@ public class TabCreator {
             }
         });
 
-        refreshList.setOnAction(actionEvent -> {
+        refreshList.setOnAction(_ -> {
             studentDropList.getItems().clear();
             refreshComboBox(studentDropList);
             studentInfoToPrint.setText("Select a student");
