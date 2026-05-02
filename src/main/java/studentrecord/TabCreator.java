@@ -23,7 +23,7 @@ public class TabCreator {
     private final Tab reviewTab;
 
     // Global Variables
-    private static final String FILE_PATH = "../resources";
+    private static final String FILE_PATH = "src/main/resources";
     private static final List<Student> studentArray = new ArrayList<>();
     private static String idSelected;
     private static Student currStudent;
